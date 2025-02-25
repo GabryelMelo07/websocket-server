@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.websocket.server.websocket.WebSocketSessionManager;
 
 import java.io.IOException;
@@ -14,9 +15,11 @@ import java.io.IOException;
 public class MessageController {
 
     private final WebSocketSessionManager sessionManager;
+    private final ObjectMapper objectMapper;
 
-    public MessageController(WebSocketSessionManager sessionManager) {
+    public MessageController(WebSocketSessionManager sessionManager, ObjectMapper objectMapper) {
         this.sessionManager = sessionManager;
+        this.objectMapper = objectMapper;
     }
 
     @PostMapping("/send")
@@ -24,7 +27,7 @@ public class MessageController {
         for (WebSocketSession session : sessionManager.getSessions()) {
             if (session.isOpen()) {
                 try {
-                    session.sendMessage(new TextMessage(messageBody.content()));
+                    session.sendMessage(new TextMessage(objectMapper.writeValueAsString(messageBody)));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
