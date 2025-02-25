@@ -8,6 +8,8 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
 
+import static com.websocket.server.utils.SessionInfoUtils.printSessionInfo;
+
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
 
@@ -19,7 +21,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-        System.out.println("✅ Nova conexão WebSocket estabelecida: " + session.getId());
+        System.out.println("✅ Nova conexão WebSocket estabelecida:");
+        printSessionInfo(session);
         sessionManager.addSession(session);
     }
 
