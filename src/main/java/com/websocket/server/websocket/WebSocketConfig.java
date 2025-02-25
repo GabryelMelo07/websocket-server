@@ -18,6 +18,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(webSocketHandler, "/message")
-                .setAllowedOrigins("https://ferragemavila.com.br");
+                .setAllowedOrigins("http://localhost:3000", "http://127.0.0.1:3000", "https://ferragemavila.com.br");
     }
 }
